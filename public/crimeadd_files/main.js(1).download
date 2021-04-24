@@ -1,0 +1,144 @@
+var htmlOriginal;
+var htmlMem;
+
+//////////////////////////////////////////////////////////////////////////////////
+function onSplitFrames() {}
+
+// INIT BANNER ----------------------------------
+function init() {
+
+  setBannerSize();
+  show(".scene");
+  show(".common");
+  set(".htmlMem", { skewX: 0.1, transformOrigin: "50% 50%" });
+
+  new ImagePreloader(["frame1.png", "frame2.png", "frame3.png", "cta.svg"], frame0);
+
+  htmlOriginal = $("body").innerHTML;
+  htmlMem = $(".htmlMem").innerHTML;
+
+  addListeners();
+}
+
+function frame0() {
+  show(".banner");
+  from(".htmlMem", 0.25, { opacity: 0 }, "in", 0);
+  frame2();
+
+  hide(".globe");
+  hide(".globe .line-1");
+  hide(".globe .line-2");
+  hide(".globe .line-3");
+  hide(".globe .circle-2");
+}
+
+function frame1() {
+  show(".frame1");
+  TweenMax.staggerFrom(".frame1 .line", 0.4, { opacity: 0, y: 20, ease: Power2.easeOut, delay: 0.2 }, 0.1);
+
+  wait(2.4, frame2);
+}
+
+function frame2() {
+  show(".frame2");
+  from(".frame2", 0.4, { opacity: 0, y: -20 }, "out", 0.6);
+  // to(".frame1", 0.4, { opacity: 0, x: 0 }, "in");
+
+  wait(0.5, function () {
+    show(".globe");
+    set(".circle-1", { drawSVG: "100% 100%" });
+    set(".pin", { drawSVG: "50% 50%" });
+    to(".circle-1", 0.5, { drawSVG: "0% 100%" }, "out", 0.3);
+    to(".pin", 1.0, { drawSVG: "0% 100%" }, "out", 0);
+  });
+  wait(1.8, frame3);
+}
+
+function frame3() {
+  show(".frame3");
+  from(".frame3", 0.4, { opacity: 0, y: -20 }, "out", 0.5);
+  to(".frame2", 0.4, { opacity: 0, y: 20 }, "in");
+
+  // fade in dark blue
+  to(".background", 1.5, { opacity: 1 }, "");
+
+  var globeScale = { scale: 1 };
+  function scaleLines() {
+    set(".globe svg", { scale: globeScale.scale });
+    set(".globe path", { strokeWidth: 4 * (1 / globeScale.scale) });
+  }
+
+  show(".globe .line-1");
+  show(".globe .line-2");
+  show(".globe .line-3");
+  show(".globe .circle-2");
+  set(".circle-1", { drawSVG: "0% 100%" });
+
+  var tl = new TimelineMax();
+  tl.to(globeScale, 1.0, { scale: 4, onUpdate: scaleLines, ease: Power2.easeInOut }, 0)
+    .to(".globe .pin", 1.0, { scale: 1.7, drawSVG: "50% 50%", transformOrigin: "50% 30%", ease: Power2.easeInOut }, 0)
+    .to(".globe svg", 1.0, { y: 50, ease: Power2.easeInOut }, 0)
+    .to(".circle-1", 0.8, { drawSVG: "100% 100%", ease: Power2.easeIn }, 0)
+    .set(".circle-1", { drawSVG: "0% 0%" }, 0.8)
+    .to(".circle-1", 0.8, { drawSVG: "0% 90%", ease: Power2.easeOut }, 0.8)
+    .from(".globe .circle-2", 0.5, { drawSVG: "0% 0%", ease: Power2.easeInOut }, 0.5)
+    .from(".globe .line-1", 0.5, { drawSVG: "0% 0%", ease: Power2.easeInOut }, "-=0.5")
+    .from(".globe .line-2", 0.5, { drawSVG: "0% 0%", ease: Power2.easeInOut }, "-=0.4")
+    .from(".globe .line-3", 0.5, { drawSVG: "0% 0%", ease: Power2.easeInOut }, "-=0.4");
+
+  wait(2.0, frame4);
+}
+
+function frame4() {
+  show(".frame4");
+  from(".frame4", 0.4, { opacity: 0, y: -20 }, "out", 0.5);
+  to(".frame3", 0.4, { opacity: 0, y: 20 }, "in");
+  wait(2.5, frame5);
+}
+
+function frame5() {
+  show(".frame5");
+
+  var tl = new TimelineMax();
+  tl.to(".line-1", 0.5, { drawSVG: "100% 100%", ease: Power2.easeIn })
+    .to(".line-2", 0.5, { drawSVG: "100% 100%", ease: Power2.easeIn }, "-=0.45")
+    .to(".line-3", 0.5, { drawSVG: "100% 100%", ease: Power2.easeIn }, "-=0.45")
+    .to(".circle-2", 0.5, { drawSVG: "0% 0%", ease: Power2.easeIn }, "-=0.45")
+    .to(".circle-1", 1.0, { drawSVG: "100% 100%", ease: Power2.easeInOut }, "-=0.5");
+
+  to(".globe", 0.6, { opacity: 0 }, "in", 0.4);
+  to(".pp", 0.4, { opacity: 0 }, "in", 0.3);
+  from(".endframe .logo", 0.4, { opacity: 0, x: -20 }, "out", 0.9);
+  from(".endframe .cta", 0.4, { opacity: 0, y: 20 }, "out", 1.1);
+  to(".frame4", 0.4, { opacity: 0 }, "in");
+
+  if (banner.loopCount < 1) {
+    banner.loopCount++;
+    wait(5, loop);
+  } else {
+    from(".replay", 0.5, { opacity: 0 }, "in", 1);
+  }
+}
+
+function loop() {
+  killAll();
+  to(".htmlMem", 1.0, { opacity: 0 }, "in");
+  set(".replay", { display: "none", opacity: 1 });
+
+  banner.looping = true;
+
+  wait(1.0, function () {
+    killAll();
+    set(".htmlMem", { opacity: 1 });
+    $(".htmlMem").innerHTML = htmlMem;
+    frame0();
+    from(".pp", 0.4, { opacity: 0 }, "out");
+    banner.looping = false;
+  });
+}
+
+function reset() {
+  loop();
+}
+
+window.addEventListener("load", init);

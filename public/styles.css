@@ -1,0 +1,157 @@
+@import url('https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Noto+Sans+KR:wght@100&family=Press+Start+2P&family=Zilla+Slab+Highlight&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+html,body{
+    height: 100%;
+}
+.bg
+{
+    background-image: url('./crime2.jpg');
+    background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+    height: 100vh;
+    width: 100%;
+    font-family: 'Tahoma', sans-serif;
+    }
+    .container{
+        margin-top: 100px;
+        padding-top: 1%;
+        padding:0vmin;
+        max-height: 450px;
+        margin-bottom: auto;
+        align-content: center;
+        max-width: 450px;
+        border:inset;
+        border-width:thick;
+        }
+        #btnlogin
+        {
+            font-family: 'Press Start 2P', cursive;
+           background-color:#0D67B1 ;
+        }
+    .card-header h1{
+        font-family: 'Press Start 2P','Dela Gothic One' ;
+    color:rgb(255, 255, 255);
+    text-shadow: 0 0 3px #402bff, 0 0 5px #2c75fd;
+    font-size: auto;
+    }
+#forgotlink
+{
+    color:white;
+    text-shadow: 0 0 3px #000000, 0 0 5px #000000;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 12px;
+}
+p
+{
+    color:white;
+    text-shadow: 0 0 3px #000000, 0 0 5px #000000;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 12px;
+}
+#headnav
+{
+    font-family:'Press Start 2P';
+}
+.buttonHome
+{
+    font-family: 'Roboto', sans-serif;
+    font-size: 30px;
+    color:black;
+}
+
+h1 {
+    font-size:3em; 
+    font-weight: 300;
+    line-height:1em;
+    text-align: center;
+    color: #4DC3FA;
+  }
+  
+  /* h2 {
+    font-size:1em; 
+    font-weight: 300;
+    text-align: center;
+    display: block;
+    line-height:1em;
+    padding-bottom: 2em;
+    color: #FB667A;
+  } */
+  
+  h2 a {
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #FB667A;
+    text-decoration: none;
+  }
+  
+  .blue { color: #185875; }
+  .yellow { color: #FFF842; }
+  
+  .container2 th h1 {
+        font-weight: bold;
+        font-size: 1em;
+    text-align: left;
+    color: #185875;
+  }
+  
+  .container2 td {
+        font-weight: normal;
+        color: rgb(255, 255, 255);
+        font-size: 1em;
+    -webkit-box-shadow: 0 2px 2px -2px #000000;
+         -moz-box-shadow: 0 2px 2px -2px #000000;
+              box-shadow: 0 2px 2px -2px #000000;
+  }
+  
+  .container2 {
+        text-align: left;
+        overflow: hidden;
+        width: 80%;
+        margin: 0 auto;
+    display: table;
+    padding: 0 0 8em 0;
+  }
+  
+  .container2 td, .container2 th {
+        padding-bottom: 2%;
+        padding-top: 2%;
+    padding-left:2%;  
+  }
+  
+  /* Background-color of the odd rows */
+  .container2 tr:nth-child(odd) {
+        background-color: #323C50;
+  }
+  
+  /* Background-color of the even rows */
+  .container2 tr:nth-child(even) {
+        background-color: #2C3446;
+  }
+  
+  .container2 th {
+        background-color: #1F2739;
+  }
+  
+  .container2 td:first-child { color: #18ffff; }
+  
+  .container2 tr:hover{
+    background-color: #cc2020;
+    color: #403E10;
+    font-weight: bold;
+  
+    box-shadow: #ffffff;
+    transform: translate3d(6px, -6px, 0);
+    
+    transition-delay: 0s;
+        transition-duration: 0.4s;
+        transition-property: all;
+    transition-timing-function: line;
+  }
+  
+
+  
+  @media (max-width: 800px) {
+  .container2 td:nth-child(4),
+  .container2 th:nth-child(4) { display: none; }
+  }

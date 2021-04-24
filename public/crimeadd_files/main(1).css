@@ -1,0 +1,86 @@
+.banner {
+  background: #009edd;
+  color: white;
+}
+
+/* == CAR / BACKGROUND ======================================== */
+.scene {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.background {
+  background: #1c3687;
+  opacity: 0;
+}
+
+.scene .globe {
+  position: absolute;
+  top: 30px;
+  left: 90px;
+  width: 240px;
+  height: 400px;
+  transform: scale(0.5);
+  transform-origin: 0% 0%;
+}
+.scene .globe svg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+.scene .globe path {
+  fill: none;
+  stroke: #ffffff;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 4px;
+}
+
+/* == COPY  ======================================== */
+.frame img {
+  position: absolute;
+  width: 300px;
+  height: 250px;
+  top: 0px;
+  left: 0;
+}
+
+.frame1 img {
+  top: 0px;
+}
+
+.endframe .logo {
+  width: 176px;
+  height: 43px;
+  position: absolute;
+  top: 70px;
+  left: 62px;
+  background: url("paypal-logo.svg");
+  background-size: 176px 43px;
+}
+
+.common .pp {
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  bottom: 14px;
+  right: 14px;
+  background: url("pp-logo.svg");
+  background-size: 30px 30px;
+}
+
+.cta {
+  width: 186px;
+  height: 32px;
+  position: absolute;
+  top: 150px;
+  left: 57px;
+  background: url("cta.svg");
+  background-size: 186px 32px;
+}
+
+.cta .hover {
+  opacity: 0;
+  background-image: url("cta-hover.svg");
+}
