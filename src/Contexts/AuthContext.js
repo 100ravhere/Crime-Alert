@@ -9,15 +9,22 @@ export function useAuth() {
 
 export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState()
-  const [loading, setLoading] = useState(true)
-const[location,setLocation] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [fname,setfName] = useState("");
+  const [lname,setlName] = useState("");
+  const [Loc,setLoc] = useState("");
+  const [cityCrime,selectCityCrime] = useState(null);
+  const [dateDesc,setDateDesc] = useState("");
+  const [notiLength,setNotiLength] = useState(0);
   function signup(email, password) {
     return auth.createUserWithEmailAndPassword(email, password)
   }
 
   function login(email, password) {
-    return auth.signInWithEmailAndPassword(email, password)
-  }
+    
+    return auth.signInWithEmailAndPassword(email, password);
+    
+    }
 
   function logout() {
     return auth.signOut()
@@ -52,8 +59,18 @@ const[location,setLocation] = useState("");
     resetPassword,
     updateEmail,
     updatePassword,
-    location,
-    setLocation
+    fname,
+    setfName,
+    lname,
+    setlName,
+    Loc,
+    setLoc,
+    dateDesc,
+    setDateDesc,
+    cityCrime,
+    selectCityCrime
+    ,notiLength,
+    setNotiLength
   }
 
   return (

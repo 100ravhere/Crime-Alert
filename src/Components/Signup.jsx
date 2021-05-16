@@ -37,7 +37,7 @@ export default function Signup()
    const [error,setError] = useState("")
    const [loading,setLoading] = useState(false)
    const history = useHistory();
-   
+   const ref = app.firestore().collection("users"); 
    async function handleSubmit(e)
    {
 
@@ -55,13 +55,24 @@ export default function Signup()
        await signup(emailRef.current.value,passwordRef.current.value)
        .then(credential => {
         // Save user here.
-        return app.database().ref('/users/' + credential.user.uid).set({
+        
+        ref.doc(credential.user.uid).set(
+          {
             firstname: FirstNameRef.current.value,
             lastname:LastNameRef.current.value,
           email: credential.user.email,
           uid: credential.user.uid,
           location:inputRef.current.value
-        });
+          }
+        ).then(()=>
+        {
+          console.log("DOcument successfully written");
+        })
+        .catch((err)=>
+        {
+          console.error(err);
+        })
+       
       })
       .catch(function(error) {
         // Handle Errors here.
@@ -128,7 +139,7 @@ export default function Signup()
 <br/>
   <div className="d-flex justify-content-center links">
 
-                <p>Already have a account?<Link to="/"><b> Login Now</b></Link></p>
+                <p  className="needAc">Already have a account?<Link to="/"><b> Login Now</b></Link></p>
                </div>
             </div>
   </div>

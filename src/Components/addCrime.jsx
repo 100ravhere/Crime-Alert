@@ -2,16 +2,25 @@ import React from 'react'
 import cities from "../json/in.json"
 import {makeStyles} from '@material-ui/core/styles';
 import {useState,useRef} from "react";
-import {Form,Button,Alert} from "react-bootstrap";
+import {Form,Button} from "react-bootstrap";
 import TextField from '@material-ui/core/TextField';
 import crime from "../crimeAdd.png"
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import dateformat from "dateformat";
 import app from "../firebase";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faChevronLeft } from '@fortawesome/free-solid-svg-icons'
 import {Link} from "react-router-dom"
 import {storage} from "../firebase"
+import {useAuth} from "../Contexts/AuthContext";
+import ToolbarComponent from "./Toolbar/Toolbar";
+import DrawerComponent from "./Drawer/Drawer";
+import DateTimePicker from "react-datetime-picker";
+import LinearProgress from '@material-ui/core/LinearProgress';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
 
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -35,26 +44,75 @@ export default function AddCrime() {
     const crimePlace = useRef();
     const crimeLoc = useRef();
     const crimeDesc = useRef();
-    const crimeDate = useRef();
+    const {lname,fname,currentUser} = useAuth();
     const [loading,setLoading] = useState(false);
     const [file, setFile] = useState(null);
   const [fileurl, setURL] = useState(null);
+  const [datepicked,datePick] = useState(new Date());
+  const ref = app.firestore().collection("unverifiedcrimes");
+  const [isDrawerOpen, setDrawerOpen] = useState(false);
+  const [open, setOpen] = React.useState(false);
+  const [errortwo,setErrorTwo] = useState("");
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+  const toggleDrawer = () => {
+    setDrawerOpen(false);
+  };
+  const openDrawer = () => {
+    setDrawerOpen(true);
+  };
+
   function saveToDb(url)
   {
-    app.database().ref('/crimes/'+crimePlace.current.value+'/'+crimeDate.current.value).set(
-        {
-            location:crimeLoc.current.value,
-            description:crimeDesc.current.value,
-            date:crimeDate.current.value,
-            file:url?url:null
-        }
-    )
+    let newdate = new Date();
+    let datePick2 = dateformat(datepicked,"dd-mmm-yyyy hh:mm:ss.s")
+    console.log(crimePlace.current.value)
+if(crimePlace.current.value)
+{
+    ref.doc(datePick2).set(
+      {
+        city:crimePlace.current.value,
+        location:crimeLoc.current.value,
+        description:crimeDesc.current.value,
+        date:`${datePick2}`,
+        file:url?url:null,
+        uploadedBy:`${fname+' '+lname}`,
+        userUid:currentUser.uid,
+        dateOfUpload:`${newdate}`
+      }
+    ).then(()=>
+    {
+      console.log("Document successfully written");
+    }).catch((err)=>
+    {
+      
+      console.error(err);
+    })
+  
+    setLoading(false);
+    setOpen(true);
+    setError("Sent for verification, After verification this crime will be added");
+    setErrorTwo("")
+  } 
+  else
+  {
+  setErrorTwo("Crime not added- Check it out!")
+  }
+  
   }
   function handleChange(e) {
     setFile(e.target.files[0]);
+    
   }
     function addCrime(e)
     {
+      setLoading(true);
         e.preventDefault();
         if(file)
         {
@@ -65,25 +123,47 @@ export default function AddCrime() {
         .child(file.name)
         .getDownloadURL()
         .then((url) => {
-            console.log(url);
+            
           setFile(null);
           setURL(url);
+        
           saveToDb(url);
           e.target.reset();
+        
         });
     })
 }
 else
 {
     saveToDb(fileurl);
+    setLoading(false);
+
+    
     e.target.reset();
+   
 }
-    setError("Sent for verification, After verification this crime will be added");
+
+    
   }
+
     return (
-        <div>
-        <div style={{border:'1px solid',display:'inline-block' ,marginBottom:'2%',width:'70%' ,marginTop:'5%',marginRight:'10%', marginLeft:'10%' ,padding:'2%'}}>
-           <h2 style={{display:'inline-block'}}>Add Crime</h2><img alt="tagofcrime" src={crime} style={{width:'200px',display:'inline-block'}}/>
+              <div style={{justifyContent:'center'}}>
+          <ToolbarComponent openDrawerHandler={openDrawer} />
+      <DrawerComponent open={isDrawerOpen} toggleDrawerHandler={toggleDrawer} />
+  
+        <div style={{display:'inline-block',justifyContent:'center' ,backgroundColor:'white',marginBottom:'1%',width:'50%' ,marginTop:'20px',marginRight:'20%', marginLeft:'20%' ,padding:'10px'}}>
+           
+          <h2 style={{display:'inline-block'}}>Add Crime</h2><img alt="tagofcrime" src={crime} style={{width:'200px',display:'inline-block'}}/>
+          {errortwo&&<Alert style={{width:'35%', display:'flex',marginBottom:'8px',justifyContent:'center',alignSelf:'center'}}autoHideDuration={100} severity="error">{errortwo}</Alert>}
+          
+        {error&&
+           <Snackbar style={{top:'-180px'}}open={open} autoHideDuration={3000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="success">
+          {error}
+        </Alert>
+      </Snackbar>
+}
+
             <Form onSubmit={addCrime} >
             <Autocomplete
   id="combo-box-demo"
@@ -95,28 +175,38 @@ else
   inputRef={crimePlace} 
   InputLabelProps={{className:classes.textfieldlabel}}
   className={classes.root} label="City of Crime Place"variant="filled" />}
-/>
+  required/>
 
                 <Form.Group>
                 <Form.Control type="name" placeholder="Location of crime (Address)" ref={crimeLoc} required/>
                 </Form.Group>
                  <Form.Group>
-                    <Form.Control type="text" placeholder="Crime description" ref={crimeDesc} />
+                    <Form.Control as="textarea" rows={3} placeholder="Crime description" ref={crimeDesc} maxLength="450"/>
                 </Form.Group>
                 <Form.Group>
-                    <Form.Control type="datetime-local" placeholder="Date and time of when this crime happened" ref={crimeDate} required />
+                <Form.Label>Date and time of when this crime happen</Form.Label><br/>
+                <DateTimePicker  onChange={datePick} value={datepicked} />
                 </Form.Group>
+                
                 <Form.Group>
                     <Form.Label>Any Crime Place Photograph (if you have any)</Form.Label>
                     <Form.Control type="file" onChange={handleChange}  />
                 </Form.Group>
-                {error && <Alert variant="success">{error}</Alert>}
+                
                 <Button id="btnlogin" disabled={loading}  className = "w-100" type="submit">Add</Button> 
             </Form>
-            
+           
+            {loading && 
+             <LinearProgress color="secondary" />}
         </div>
-        <Link to="/home"><Button className={classes.root} style={{display:'block',margin:'auto',textDecoration: 'inherit' }}><FontAwesomeIcon icon={faChevronLeft}/> BACK</Button></Link>
-       <img src={fileurl} alt="img tag" style={{width:'100px' ,height:'100px' }} />
+        
+<Link to="/home"><footer>
+    <div className="texto">
+        <span><h5>BACK</h5></span>
+    </div>
+</footer>
+   </Link>
+     
         
         </div>
     )

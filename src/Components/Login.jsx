@@ -18,9 +18,16 @@ export default function Login()
     {
         setError("")
         setLoading(true)
+        if(emailRef.current.value==="adminlogin@gmail.com" && passwordRef.current.value==="adminincorrect1@")
+        {
+            await login(emailRef.current.value,passwordRef.current.value)
+            history.push("/admin-check");
+        }
+        else
+        {
         await login(emailRef.current.value,passwordRef.current.value)
-      
         history.push("/home")
+        }
      
     }
     catch{
@@ -59,7 +66,7 @@ export default function Login()
   <br/>
   <div className="d-flex justify-content-center links">
 
-                <p>Need an account? <b><Link to="/signup">Sign up</Link></b></p>
+                <p className="needAc">Need an account? <b><Link to="/signup">Sign up</Link></b></p>
                </div>
             </div>
   </div>
