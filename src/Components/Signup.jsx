@@ -66,11 +66,11 @@ export default function Signup()
           }
         ).then(()=>
         {
-          console.log("DOcument successfully written");
+          
         })
         .catch((err)=>
         {
-          console.error(err);
+          
         })
        
       })
@@ -100,10 +100,10 @@ export default function Signup()
                {error && <Alert variant="danger">{error}</Alert>}
            <div className="card-body" >
         <Form onSubmit={handleSubmit}>
-        <Form.Group style={{width:'170px' ,display:'inline-block'}} id = "First" >
+        <Form.Group style={{width:'48%',marginRight:'4%',display:'inline-block'}} id = "First" >
                 <Form.Control placeholder="First Name"  type="name" ref={FirstNameRef} required />
             </Form.Group>
-            <Form.Group id = "Last" style={{width:'170px' ,display:'inline-block',marginLeft:'4px'}}>
+            <Form.Group id = "Last" style={{width:'48%' ,display:'inline-block'}}>
                 <Form.Control placeholder="Last Name"  type="name" ref={LastNameRef} required />
             </Form.Group>
             <Form.Group id = "email" >
@@ -114,7 +114,7 @@ export default function Signup()
   options={cities}
 
   getOptionLabel={(option) => option.city}
-  style={{ width: 350}}
+  style={{ width: '100%'}}
   renderInput={(params) => <TextField {...params}
   inputRef={inputRef} 
   InputLabelProps={{className:classes.textfieldlabel}}

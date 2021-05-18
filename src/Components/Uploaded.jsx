@@ -54,7 +54,7 @@ const openDrawer = () => {
 
   function rowClick2()
   {
-    console.log("hey")
+    
     $("#gfg").show().delay(1000).fadeOut(500);
   }
   function rowClick(daterow,cityrow)
@@ -71,13 +71,14 @@ const openDrawer = () => {
           <Alert style={{display:'none'}} id="gfg" severity="error" variant="standard">
           Crime is rejected by admin!
         </Alert>
+        {addedArray.length!==0?
             <table style={{border:'1px solid'}}className="container2">
               <thead>
               <tr>
                   <th><h1>Date-Time</h1></th>
                   <th><h1>Crime Details</h1></th>
                   <th><h1>City</h1></th>
-                  <th ><h1>Status</h1></th>
+                  <th><h1>Status</h1></th>
                </tr>
                </thead>
                  <tbody>
@@ -99,6 +100,13 @@ const openDrawer = () => {
                  </tbody>
                  
                  </table>
+                 :<Alert severity="warning" style={{width:'50%',display:'flex',justifyContent:'center',alignItems:'center',margin:'0 auto',marginTop:'2em'}}>0 Crime found</Alert>}
+       <button onClick={()=> history.goBack()}><footer>
+    <div className="texto">
+        <span><h5>BACK</h5></span>
+    </div>
+</footer>
+   </button>
         </div>
     )
 }

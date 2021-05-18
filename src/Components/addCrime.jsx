@@ -72,7 +72,7 @@ export default function AddCrime() {
   {
     let newdate = new Date();
     let datePick2 = dateformat(datepicked,"dd-mmm-yyyy hh:mm:ss.s")
-    console.log(crimePlace.current.value)
+    
 if(crimePlace.current.value)
 {
     ref.doc(datePick2).set(
@@ -88,7 +88,7 @@ if(crimePlace.current.value)
       }
     ).then(()=>
     {
-      console.log("Document successfully written");
+      
     }).catch((err)=>
     {
       
@@ -147,13 +147,13 @@ else
   }
 
     return (
-              <div style={{justifyContent:'center'}}>
+              <div>
           <ToolbarComponent openDrawerHandler={openDrawer} />
       <DrawerComponent open={isDrawerOpen} toggleDrawerHandler={toggleDrawer} />
   
-        <div style={{display:'inline-block',justifyContent:'center' ,backgroundColor:'white',marginBottom:'1%',width:'50%' ,marginTop:'20px',marginRight:'20%', marginLeft:'20%' ,padding:'10px'}}>
+        <div id="addCrime" >
            
-          <h2 style={{display:'inline-block'}}>Add Crime</h2><img alt="tagofcrime" src={crime} style={{width:'200px',display:'inline-block'}}/>
+          <h4 style={{display:'inline'}}>Add Crime</h4><img alt="tagofcrime" src={crime} style={{width:'10em',display:'inline'}}/>
           {errortwo&&<Alert style={{width:'35%', display:'flex',marginBottom:'8px',justifyContent:'center',alignSelf:'center'}}autoHideDuration={100} severity="error">{errortwo}</Alert>}
           
         {error&&

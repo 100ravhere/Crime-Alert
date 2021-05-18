@@ -4,6 +4,7 @@ import app from "../firebase"
 import {useAuth} from "../Contexts/AuthContext";
 import ToolbarComponent from "./Toolbar/Toolbar";
 import DrawerComponent from "./Drawer/Drawer";
+import Alert from '@material-ui/lab/Alert';
 export default function CityCrime() {
     const history = useHistory();
     const {setDateDesc,setLoc,cityCrime} = useAuth();
@@ -24,8 +25,7 @@ export default function CityCrime() {
          snap=>{
             crimeArrList.push(snap.data());
          })
-         console.log(crimeArrList.length)
-        
+         
          setCrimeList(crimeArrList);
       
       })
@@ -89,9 +89,14 @@ const openDrawer = () => {
                  </tbody>
                  
                  </table>
-                 :
-                  <h1>No Data Found</h1>}
-                   
+                 
+                 :<Alert severity="warning" style={{width:'50%',display:'flex',justifyContent:'center',alignItems:'center',margin:'0 auto',marginTop:'2em'}}>0 Crime found</Alert>}
+                <button onClick={()=> history.goBack()}><footer>
+    <div className="texto">
+        <span><h5>BACK</h5></span>
+    </div>
+</footer>
+   </button>   
         </div>
     )
 }

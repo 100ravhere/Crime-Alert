@@ -6,7 +6,7 @@ import {useHistory} from "react-router-dom"
 import app from "../firebase";
 import ToolbarComponent from "./Toolbar/Toolbar";
 import DrawerComponent from "./Drawer/Drawer";
-
+import Alert from '@material-ui/lab/Alert';
 
 export default function Home() {
    
@@ -76,8 +76,9 @@ function rowClick(datee)
                     </Card.Body>
                     </Card>
                   
-                    <strong style={{padding:'22px'}}className="buttonHome">Crimes committed in {Loc}</strong>
+                    <p style={{marginLeft:'10px'}}className="buttonHome">Crimes committed in {Loc}</p>
                     <hr/>
+                    {crimeList.length!==0?
             <table className="container2">
               <thead>
               <tr>
@@ -103,8 +104,8 @@ function rowClick(datee)
                  })}
                  </tbody>
                  
-                 </table>
-                   
+                 </table>:<Alert severity="warning" style={{width:'50%',display:'flex',justifyContent:'center',alignItems:'center',margin:'0 auto',marginTop:'2em'}}>0 Crime found</Alert>
+}
                     
       </div>  
        

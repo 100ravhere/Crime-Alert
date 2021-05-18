@@ -16,13 +16,11 @@ html,body{
     font-family: 'Tahoma', sans-serif;
     }
     .container{
-        margin-top: 100px;
-        padding-top: 1%;
-        padding:0vmin;
-        max-height: 450px;
-        margin-bottom: auto;
-        align-content: center;
-        max-width: 450px;
+      margin: 0 auto;
+      position: relative;
+      margin-top: 8em;
+      width:30%;
+       padding:0 0 1em 1em;
         border:inset;
         border-width:thick;
         }
@@ -50,6 +48,7 @@ html,body{
     text-shadow: 0 0 3px #000000, 0 0 5px #000000;
     font-family: 'Press Start 2P', cursive;
     font-size: 12px;
+
 }
 #headnav
 {
@@ -186,8 +185,22 @@ h1 {
 
   
   @media (max-width: 800px) {
-  .container2 td:nth-child(4),
-  .container2 th:nth-child(4) { display: none; }
+  .container2 td:nth-child(5),
+  .container2 th:nth-child(5) { display: none; }
+  .container2 {
+    width:100%;
+    font-size: 0.7rem;
+  }
+  h1{
+    font-size: 2em;
+  }
+  .container{
+    width: 100%;
+  }
+  .needAc
+  {
+    font-size: 0.6em;
+  }
   }
   .crimedesc{
     font-size: 18px;
@@ -195,9 +208,9 @@ h1 {
   }
   .popup-box {
     position: absolute;
-    width:20%;
+    width:20rem;
     z-index: 9;
-    min-height:100px;
+    min-height:5em;
     max-height: 300px;
     overflow-y:scroll ;
     background-color:rgb(255, 255, 255);

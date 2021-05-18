@@ -4,7 +4,7 @@ import app from "../firebase"
 import {useAuth} from "../Contexts/AuthContext"
 import ToolbarComponent from "./Toolbar/Toolbar";
 import DrawerComponent from "./Drawer/Drawer";
-
+import Alert from '@material-ui/lab/Alert';
 export default function Admin() {
     const [crimeList,setCrimeList] = useState([]);
     const {setDateDesc} = useAuth();
@@ -23,7 +23,7 @@ export default function Admin() {
     function rowClick(opo)
     {
         setDateDesc(opo);
-        console.log(opo);
+       
         history.push("/admin-crime-details");
 
     }
@@ -46,7 +46,7 @@ export default function Admin() {
       <DrawerComponent open={isDrawerOpen} toggleDrawerHandler={toggleDrawer} />
   
             <h1>Requests:</h1>
-         
+         {crimeList.length!==0?
             <table className="container2">
               <thead>
               <tr>
@@ -74,7 +74,8 @@ export default function Admin() {
                  </tbody>
                  
                  </table>
-                   
+                 :<Alert severity="warning" style={{width:'50%',display:'flex',justifyContent:'center',alignItems:'center',margin:'0 auto',marginTop:'2em'}}>0 Crime found</Alert>
+                }
         </div>
     )
 }

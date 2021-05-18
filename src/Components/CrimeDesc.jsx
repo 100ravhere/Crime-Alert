@@ -27,8 +27,7 @@ const openDrawer = () => {
 
 useEffect(()=>
 {
-    console.log(Loc);
-    console.log(dateDesc);
+    
 app.firestore().collection(Loc).doc(dateDesc).onSnapshot((querySnap)=>
 {
     if(querySnap.data()!=null)
@@ -52,7 +51,8 @@ app.firestore().collection(Loc).doc(dateDesc).onSnapshot((querySnap)=>
 
 <div className="container3">
 
-  <img src={imgUrl} alt="Unavailable"  style={{color:'black',marginTop:'20px',width:'500px' ,borderColor:'white', height:'500px',borderStyle:'solid',borderWidth:'2px'}}/>
+  <img id="imgDesc"style={{color:'black',marginTop:'1em',borderColor:'white',width: '500px',
+  height: 'auto',borderStyle:'solid',borderWidth:'2px'}}src={imgUrl} alt="Unavailable" />
            
     <div className="post">
         <div className="header_post">
@@ -85,8 +85,6 @@ app.firestore().collection(Loc).doc(dateDesc).onSnapshot((querySnap)=>
         </div>
     </div>
 </div>
-
-
 <button onClick={()=> history.goBack()}><footer>
     <div className="texto">
         <span><h5>BACK</h5></span>

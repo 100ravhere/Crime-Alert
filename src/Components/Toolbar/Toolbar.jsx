@@ -82,6 +82,7 @@ const styles = (theme) => ({
     color: "inherit",
     width:'400px',
 
+
     
     
   },
@@ -142,7 +143,6 @@ const ToolbarComponent = (props) => {
      notiArr.reverse();
      setNotiArray(notiArr);
      notiArr=[];
-     console.log(notiArray)
     
     }
    })
@@ -150,8 +150,7 @@ const ToolbarComponent = (props) => {
   function rowRemove(objj)
   {
     let userRef = app.firestore().collection("users").doc(currentUser.uid);
-  console.log(objj);
-  console.log("hell")
+ 
        userRef.update({
          notifications:firebase.firestore.FieldValue.arrayRemove(objj)
        })
@@ -165,7 +164,6 @@ const ToolbarComponent = (props) => {
   setLoc(citee)
   let userRef = app.firestore().collection("users").doc(currentUser.uid);
 
-  console.log(objj);
        userRef.update({
          notifications:firebase.firestore.FieldValue.arrayRemove(objj)
        })
@@ -175,17 +173,17 @@ const ToolbarComponent = (props) => {
   function cityoCrime(e)
   {
     // e.preventDefault();
-    console.log(e)
+    
     // selectCityCrime(e);
     try{
       props.onUpdate(e)  
-    console.log("clicked");
+  
 
     }
     catch(error){
       console.log(error)
     }
-    console.log()
+    
     if(window.location.href.indexOf("home")!==-1||window.location.href.indexOf("all-crimes")!==-1){
       history.push("city-crime/"+e)
     }
@@ -234,7 +232,7 @@ const ToolbarComponent = (props) => {
   inputRef={crimePlace}
   
   InputLabelProps={{className:classes.textfieldlabel}}
-  className={classes.inputRoot} style={{fontFamily:"sans-serif"}} label="Search for cities"variant="filled" />}
+  className={classes.inputRoot} label="Search for cities"variant="filled" />}
 
 
 />
@@ -295,8 +293,11 @@ const ToolbarComponent = (props) => {
                     {obj.status==="Crime verified"||obj.status==='New crime reported at your city'?<td style={{fontSize:'10px' ,color:'green'}}>{obj.status}</td>:<td style={{fontSize:'10px' ,color:'red'}}>Not such crime committed</td>}
                   </tr>
                   
+                  
                 )
-              }):<tr><td colSpan='2'>No Notifications</td></tr>}
+              }):<tr><td colSpan='2'><Alert severity="info" style={{justifyContent:'center',alignItems:'center'}}>No Notification</Alert></td></tr>
+              }
+             
              
   </tbody>
   </table>

@@ -1,10 +1,11 @@
 import React,{useState,useEffect} from 'react';
 import {Alert} from "react-bootstrap";
-import {Link} from "react-router-dom";
+import {useHistory} from "react-router-dom";
 import app from "../firebase"
 import firebase from "firebase/app"
 import {useAuth} from "../Contexts/AuthContext";
-import {Card,Button} from "react-bootstrap"
+import {Divider} from "@material-ui/core";
+import {Button} from "react-bootstrap"
 import dateformat from "dateformat";
 import ToolbarComponent from "./Toolbar/Toolbar";
 import DrawerComponent from "./Drawer/Drawer";
@@ -20,13 +21,13 @@ const [uploadDate,setUploadDate] = useState("");
 const [loading] = useState(false);
 const [error,setError] = useState("");
 const [uid,setUid] = useState("");
-
+const history = useHistory();
 useEffect(()=>
 {
 
   app.firestore().collection("unverifiedcrimes").doc(dateDesc).onSnapshot((snap)=>
   {
-    console.log(snap.data())
+   
     if(snap.data()!=null)
   {
     setCity(snap.data().city);
@@ -66,8 +67,7 @@ function verify()
         dateOfUpload:uploadDate
   })
 
-  console.log("done")
-  console.log(uid);
+  
        let userRef = app.firestore().collection("users").doc(uid);
        userRef.update({
          notifications:firebase.firestore.FieldValue.arrayUnion({
@@ -82,12 +82,10 @@ function verify()
          
          querySnap.forEach((snap)=>
          {
-           console.log(snap.data())
+          
            if(snap.data().location===city)
            {
-             console.log(city)
-             console.log(snap.data().location)
-             console.log(snap.data().uid)
+             
             let userRef = app.firestore().collection("users").doc(snap.data().uid);
             userRef.update({
               notifications:firebase.firestore.FieldValue.arrayUnion({
@@ -154,33 +152,54 @@ function reject()
       <DrawerComponent open={isDrawerOpen} toggleDrawerHandler={toggleDrawer} />
       
           {error&&<Alert variant="success">{error}</Alert>}
-            <Card style={{background: '#eee',display:'inline'}}>
-            <h1>Crime Details</h1>
-            <img src={imgUrl} alt="Unavailable"  style={{marginTop:'20px',width:'35%' ,height:'70vh',border:'1px solid'}}/>
-            <Card style={{float:'right' ,width:'55%', marginTop:'20px'}}>
-            <p className="crimedesc">DATE:</p>{dateCrime}
-            <p></p>
            
-        <p className="crimedesc">LOCATION:</p>{Location}
-            <p className="crimedesc">DETAILS:</p>{description}
-            <p className="crimedesc">UPLOADED BY:</p>{uploadedBy}
-            &nbsp; on {dateformat(uploadDate,"dd-mmm-yyyy hh:mm:ss.s")}
-            <br />
-            <Button disabled={loading} onClick={()=>verify()}variant="success" style={{width:'100px'}}>Verify</Button>
-            <Button variant="danger" onClick={()=>reject()} style={{width:'100px',position:'absolute',right:'10%',bottom:'0'}}>Decline</Button>
-            </Card>
-            
-            <Card style={{display:'inline-block',padding:'5%' ,width:'500px'}}>
-            
-           </Card>
-            </Card>
-            <Link to="/admin-check"><footer>
-    <div className="texto">
-        <span><h5>BACK</h5></span>
-    </div>
-</footer>
-   </Link>
-              </div>
+<div className="container3">
+
+<img id="imgDesc"style={{color:'black',marginTop:'1em',borderColor:'white',width: '500px',
+height: 'auto',borderStyle:'solid',borderWidth:'2px'}}src={imgUrl} alt="Unavailable" />
+         
+  <div className="post">
+      <div className="header_post">
+      
+      <Divider/>
+      <h4 style={{color:'black',display:'inline'}}>Date:&nbsp;</h4><h4 style={{color:'black',display:'inline'}}>{dateCrime}</h4>
+      <br/> <h4 style={{color:'black',display:'inline-block'}}>City: &nbsp;</h4><h4 style={{color:'black',display:'inline'}}>{city}</h4>
+     <br/> <h4 style={{color:'black',display:'inline-block'}}>Location: &nbsp;</h4><h4 style={{color:'black',display:'inline'}}>{Location}</h4>
+          </div>
+
+      <div className="body_post">
+          <div className="post_content">
+
+              <h1>Details</h1>
+              <p>{description}</p>
+
+              <div className="container_infos">
+                  <div className="postedBy">
+                      <span>Uploaded by</span>
+                      {uploadedBy}
+                  </div>
+
+                  <div className="container_tags">
+                      <span>On</span>
+                      {dateformat(uploadDate,"dd-mmm-yyyy hh:mm:ss.s")}
+
+                  </div>
+                  <Button disabled={loading} onClick={()=>verify()}variant="success" style={{width:'100px'}}>Verify</Button>
+            <Button variant="danger" onClick={()=>reject()} style={{width:'100px',right:'10%',bottom:'0'}}>Decline</Button>
               
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+
+
+<button style={{}} onClick={()=> history.goBack()}><footer>
+  <div className="texto">
+      <span><h5>BACK</h5></span>
+  </div>
+</footer>
+ </button>
+ </div>     
     )
 }
