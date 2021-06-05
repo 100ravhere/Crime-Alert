@@ -63,7 +63,7 @@ const styles = (theme) => ({
     },
     marginRight: theme.spacing(2),
     marginLeft: 0,
-    width: "100%",
+    width: "55%",
     [theme.breakpoints.up("sm")]: {
       marginLeft: theme.spacing(3),
       width: "auto"
@@ -86,6 +86,9 @@ const styles = (theme) => ({
     
     
   },
+  IconButton:{
+    display:'block'
+  },
   inputInput: {
     padding: theme.spacing(1, 1, 1, 7),
     transition: theme.transitions.create("width"),
@@ -95,16 +98,11 @@ const styles = (theme) => ({
       width: 200
     }
   },
-  sectionDesktop: {
-    display: "none",
-    [theme.breakpoints.up("md")]: {
-      display: "flex"
-    }
-  },
+ 
   sectionMobile: {
-    display: "flex",
+    display: "block",
     [theme.breakpoints.up("md")]: {
-      display: "none"
+      display: "block"
     }
   }
 });
@@ -163,7 +161,7 @@ const ToolbarComponent = (props) => {
   setDateDesc(datee)
   setLoc(citee)
   let userRef = app.firestore().collection("users").doc(currentUser.uid);
-
+  console.log(objj)
        userRef.update({
          notifications:firebase.firestore.FieldValue.arrayRemove(objj)
        })
@@ -175,6 +173,7 @@ const ToolbarComponent = (props) => {
     // e.preventDefault();
     
     // selectCityCrime(e);
+    
     try{
       props.onUpdate(e)  
   
@@ -184,8 +183,10 @@ const ToolbarComponent = (props) => {
       console.log(error)
     }
     
-    if(window.location.href.indexOf("home")!==-1||window.location.href.indexOf("all-crimes")!==-1){
+    if(window.location.href.indexOf("Type")!==-1||window.location.href.indexOf("add-crime")!==-1||window.location.href.indexOf("home")!==-1||window.location.href.indexOf("all-crimes")!==-1||window.location.href.indexOf("Added-crimes")!==-1){
+      
       history.push("city-crime/"+e)
+  
     }
     else{
       history.push(e)

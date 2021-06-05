@@ -85,12 +85,11 @@ app.firestore().collection(Loc).doc(dateDesc).onSnapshot((querySnap)=>
         </div>
     </div>
 </div>
-<button onClick={()=> history.goBack()}><footer>
+<footer onClick={()=> history.goBack()}>
     <div className="texto">
         <span><h5>BACK</h5></span>
     </div>
 </footer>
-   </button>
    </div>
     )
 }

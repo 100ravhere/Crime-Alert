@@ -8,7 +8,7 @@ import crime from "../crimeAdd.png"
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import dateformat from "dateformat";
 import app from "../firebase";
-import {Link} from "react-router-dom"
+import {useHistory} from "react-router-dom"
 import {storage} from "../firebase"
 import {useAuth} from "../Contexts/AuthContext";
 import ToolbarComponent from "./Toolbar/Toolbar";
@@ -44,7 +44,8 @@ export default function AddCrime() {
     const crimePlace = useRef();
     const crimeLoc = useRef();
     const crimeDesc = useRef();
-    const {lname,fname,currentUser} = useAuth();
+    const crimeType = useRef();
+    const {lname,fname,currentUser,setLoc} = useAuth();
     const [loading,setLoading] = useState(false);
     const [file, setFile] = useState(null);
   const [fileurl, setURL] = useState(null);
@@ -53,6 +54,18 @@ export default function AddCrime() {
   const [isDrawerOpen, setDrawerOpen] = useState(false);
   const [open, setOpen] = React.useState(false);
   const [errortwo,setErrorTwo] = useState("");
+  const history = useHistory();
+  const types=[{
+    type:'Murder or manslaughter'
+  },
+  {type:'Burglary'},
+  {type:'Sexual harassment'},
+  {type:'Cyber Crime'},
+  {type:'Domestic abuse'},
+  {type:'Fraud'},
+  {type:'Rape and sexual assault'},
+  {type:'Terrorism'
+  }]
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;
@@ -73,11 +86,12 @@ export default function AddCrime() {
     let newdate = new Date();
     let datePick2 = dateformat(datepicked,"dd-mmm-yyyy hh:mm:ss.s")
     
-if(crimePlace.current.value)
+if(crimePlace.current.value && crimeType.current.value)
 {
     ref.doc(datePick2).set(
       {
         city:crimePlace.current.value,
+        type:crimeType.current.value,
         location:crimeLoc.current.value,
         description:crimeDesc.current.value,
         date:`${datePick2}`,
@@ -148,7 +162,7 @@ else
 
     return (
               <div>
-          <ToolbarComponent openDrawerHandler={openDrawer} />
+          <ToolbarComponent onUpdate={(city)=>{setLoc(city)}} openDrawerHandler={openDrawer} />
       <DrawerComponent open={isDrawerOpen} toggleDrawerHandler={toggleDrawer} />
   
         <div id="addCrime" >
@@ -165,6 +179,8 @@ else
 }
 
             <Form onSubmit={addCrime} >
+              
+             <label for="combo-box-demo">Crime committed at...</label>
             <Autocomplete
   id="combo-box-demo"
   options={cities}
@@ -174,22 +190,34 @@ else
   renderInput={(params) => <TextField {...params}
   inputRef={crimePlace} 
   InputLabelProps={{className:classes.textfieldlabel}}
-  className={classes.root} label="City of Crime Place"variant="filled" />}
+  className={classes.root} label="City"variant="filled" />}
   required/>
 
                 <Form.Group>
-                <Form.Control type="name" placeholder="Location of crime (Address)" ref={crimeLoc} required/>
+                <Form.Control type="name" placeholder="Address or Location" ref={crimeLoc} required/>
                 </Form.Group>
                  <Form.Group>
-                    <Form.Control as="textarea" rows={3} placeholder="Crime description" ref={crimeDesc} maxLength="450"/>
+                   <label for="combo-box-2" >Type of Crime</label>
+                 <Autocomplete
+  id="combo-box-2"
+  options={types}
+
+  getOptionLabel={(option) => option.type}
+  style={{}}
+  renderInput={(params) => <TextField {...params}
+  inputRef={crimeType} 
+  InputLabelProps={{className:classes.textfieldlabel}}
+ label="Select type..."variant="outlined" />}
+  required/>
+                    <Form.Control as="textarea" rows={2} placeholder="Crime description" ref={crimeDesc} maxLength="450"/>
                 </Form.Group>
                 <Form.Group>
-                <Form.Label>Date and time of when this crime happen</Form.Label><br/>
+                <Form.Label>When was this crime committed</Form.Label><br/>
                 <DateTimePicker  onChange={datePick} value={datepicked} />
                 </Form.Group>
                 
                 <Form.Group>
-                    <Form.Label>Any Crime Place Photograph (if you have any)</Form.Label>
+                    <Form.Label>Any Crime Picture (If you have any)</Form.Label>
                     <Form.Control type="file" onChange={handleChange}  />
                 </Form.Group>
                 
@@ -200,12 +228,11 @@ else
              <LinearProgress color="secondary" />}
         </div>
         
-<Link to="/home"><footer>
-    <div className="texto">
+        <footer onClick={()=> history.goBack()}>
+    <div>
         <span><h5>BACK</h5></span>
     </div>
 </footer>
-   </Link>
      
         
         </div>

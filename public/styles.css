@@ -18,7 +18,7 @@ html,body{
     .container{
       margin: 0 auto;
       position: relative;
-      margin-top: 8em;
+      margin-top: 6.5em;
       width:30%;
        padding:0 0 1em 1em;
         border:inset;
@@ -34,6 +34,7 @@ html,body{
     color:rgb(255, 255, 255);
     text-shadow: 0 0 3px #402bff, 0 0 5px #2c75fd;
     font-size: auto;
+      background-color:rgb(0, 0, 0,0.3);
     }
 #forgotlink
 {
@@ -117,6 +118,7 @@ h1 {
         margin: 0 auto;
     display: table;
     padding: 0 0 8em 0;
+  margin-bottom: 5%;
   }
 
   .container2 td, .container2 th {
@@ -217,7 +219,6 @@ h1 {
     margin: auto;
     padding: 0;
     border: 2px solid rgb(45, 42, 255);
-    
     right:0;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
 

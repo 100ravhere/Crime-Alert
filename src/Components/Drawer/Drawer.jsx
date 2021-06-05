@@ -16,6 +16,7 @@ import LocationCitySharpIcon from '@material-ui/icons/LocationCitySharp';
 import AddLocationSharpIcon from '@material-ui/icons/AddLocationSharp';
 import HomeSharpIcon from '@material-ui/icons/HomeSharp';
 import HomeWorkSharpIcon from '@material-ui/icons/HomeWorkSharp';
+import SearchIcon from '@material-ui/icons/Search';
 const styles = (theme) => ({
   list: {
     width: 250
@@ -50,7 +51,7 @@ const DrawerComponent = (props) => {
       <Link style={{textDecoration:'none',color:'black'}} to="/add-crime"><ListItem button ><ListItemIcon><AddAlertIcon /></ListItemIcon><ListItemText primary="Add Crime"/></ListItem></Link>
       <Link style={{textDecoration:'none',color:'black'}} to="/all-crimes"><ListItem button ><ListItemIcon><LocationCitySharpIcon/></ListItemIcon><ListItemText primary="All Crimes"/></ListItem></Link>
          <Link style={{textDecoration:'none',color:'black'}} to="/Added-crimes"><ListItem button ><ListItemIcon><AddLocationSharpIcon/></ListItemIcon><ListItemText primary="Added Crime"/></ListItem></Link>
-  
+         <Link style={{textDecoration:'none',color:'black'}} to="/Type"><ListItem button ><ListItemIcon><SearchIcon/></ListItemIcon><ListItemText primary="Crime Search"/></ListItem></Link>
       
       </List>
       <Divider />

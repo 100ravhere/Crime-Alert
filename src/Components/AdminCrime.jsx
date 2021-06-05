@@ -13,6 +13,7 @@ export default function AdminCrime() {
 const {dateDesc} = useAuth();
 const [imgUrl,setImageUrl] = useState("");
 const [city,setCity] = useState("");
+const [ type,setType] = useState("");
 const [description,setDescription] = useState("");
 const [Location,setLocation] = useState("");
 const [dateCrime,setDateOfCrime] = useState("");
@@ -31,6 +32,7 @@ useEffect(()=>
     if(snap.data()!=null)
   {
     setCity(snap.data().city);
+    setType(snap.data().type);
     setImageUrl(snap.data().file);
     setDescription(snap.data().description);
     setLocation(snap.data().location);
@@ -50,6 +52,7 @@ function verify()
   let ref2 = app.firestore().collection(city).doc(dateDesc);
   ref2.set({
     city:city,
+    type:type,
         location:Location,
         description:description,
         date:dateCrime,
@@ -59,6 +62,7 @@ function verify()
   })
   app.firestore().collection("allCrimes").doc(dateDesc).set({
     city:city,
+    type:type,
         location:Location,
         description:description,
         date:dateCrime,
@@ -79,13 +83,12 @@ function verify()
        })
        app.firestore().collection("users").onSnapshot((querySnap)=>
        {
-         
+        
          querySnap.forEach((snap)=>
          {
           
            if(snap.data().location===city)
            {
-             
             let userRef = app.firestore().collection("users").doc(snap.data().uid);
             userRef.update({
               notifications:firebase.firestore.FieldValue.arrayUnion({
@@ -169,7 +172,9 @@ height: 'auto',borderStyle:'solid',borderWidth:'2px'}}src={imgUrl} alt="Unavaila
 
       <div className="body_post">
           <div className="post_content">
-
+         
+              <h5>Type of crime: {type}</h5>
+              
               <h1>Details</h1>
               <p>{description}</p>
 
@@ -194,12 +199,11 @@ height: 'auto',borderStyle:'solid',borderWidth:'2px'}}src={imgUrl} alt="Unavaila
 </div>
 
 
-<button style={{}} onClick={()=> history.goBack()}><footer>
-  <div className="texto">
-      <span><h5>BACK</h5></span>
-  </div>
+<footer onClick={()=> history.goBack()}>
+    <div className="texto">
+        <span><h5>BACK</h5></span>
+    </div>
 </footer>
- </button>
  </div>     
     )
 }

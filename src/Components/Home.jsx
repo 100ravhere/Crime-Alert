@@ -7,13 +7,21 @@ import app from "../firebase";
 import ToolbarComponent from "./Toolbar/Toolbar";
 import DrawerComponent from "./Drawer/Drawer";
 import Alert from '@material-ui/lab/Alert';
-
+import BarChart from "./BarChart";
 export default function Home() {
    
     const {currentUser,setfName,fname,setlName,lname,setLoc,setDateDesc,Loc,setNotiLength} = useAuth()
     const history = useHistory()
   const [crimeList,setCrimeList] = useState([]);
   const [isDrawerOpen, setDrawerOpen] = useState(false);
+  const[Murder,setM] = useState(0);
+  const[Burglary,setB] = useState(0);
+  const[Sexual,setS] = useState(0);
+  const[Cyber,setC] = useState(0);
+  const[Domestic,setD] = useState(0);
+  const[Fraud,setF] = useState(0);
+  const[Rape,setR] = useState(0);
+  const[Terrorism,setT] = useState(0);
   useEffect(()=>{
 
     app.firestore().collection("users").doc(currentUser.uid).onSnapshot((snap)=>
@@ -52,6 +60,52 @@ function rowClick(datee)
         crimeArrList.push(snap.data());
       })
       crimeArrList.reverse();
+      
+      let countM=0,countB=0,countS=0,countC=0,countD=0,countF=0,countR=0,countT=0;
+      crimeArrList.map((data)=>
+      {
+        
+        if(data.type==="Murder or manslaughter")
+        {
+          countM+=1;
+        }
+        else if(data.type==="Burglary")
+        {
+          countB+=1;
+        }
+        else if(data.type==="Sexual harassment")
+        {
+          countS+=1;
+        }
+        else if(data.type==="Cyber Crime")
+        {
+          countC+=1;
+        }
+        else if(data.type==="Domestic abuse")
+        {
+          countD+=1;
+        }
+        else if(data.type==="Fraud")
+        {
+          countF+=1;
+        }
+        else if(data.type==="Rape and sexual assault")
+        {
+          countR+=1;
+        }
+        else if(data.type==="Terrorism")
+        {
+          countT+=1;
+        }
+      })
+      setM(countM);
+      setB(countB);
+      setS(countS);
+      setC(countC);
+      setD(countD);
+      setF(countF);
+      setR(countR);
+      setT(countT);
       setCrimeList(crimeArrList);
       
     })
@@ -63,7 +117,7 @@ function rowClick(datee)
         <div>
         <ToolbarComponent onUpdate={(city)=>{
                getData(city);
-
+                setLoc(city);
              }} openDrawerHandler={openDrawer} />
       <DrawerComponent open={isDrawerOpen} toggleDrawerHandler={toggleDrawer} />
   
@@ -72,7 +126,14 @@ function rowClick(datee)
                     
                     <strong className="buttonHome">Hey, {fname}{' '}{lname}<br/> I hope you are doing good.</strong>
                     <br/>
-                    
+                    <BarChart murder={Murder}
+                    domestic={Domestic} burglary={Burglary}
+                    sexual={Sexual}
+                    cyber={Cyber}
+                    fraud={Fraud}
+                    rape={Rape}
+                    terrorism={Terrorism}
+                    />   
                     </Card.Body>
                     </Card>
                   
@@ -106,7 +167,7 @@ function rowClick(datee)
                  
                  </table>:<Alert severity="warning" style={{width:'50%',display:'flex',justifyContent:'center',alignItems:'center',margin:'0 auto',marginTop:'2em'}}>0 Crime found</Alert>
 }
-                    
+       
       </div>  
        
         )

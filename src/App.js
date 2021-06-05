@@ -14,6 +14,7 @@ import AdminCrime from "./Components/AdminCrime";
 import AllCrime from "./Components/AllCrime"
 import Uploaded from "./Components/Uploaded"
 import CityCrime from "./Components/CityCrime"
+import Type from "./Components/Type";
 function App() {
   return (
     <div>
@@ -32,6 +33,8 @@ function App() {
         <PrivateRoute path="/uploaded" component={Uploaded} />
         <PrivateRoute path="/city-crime" component={CityCrime} />
         <PrivateRoute path="/added-crimes" component={Uploaded} />
+        <PrivateRoute path="/Type" component={Type} />
+        
         </AuthProvider>
       </Router>
       

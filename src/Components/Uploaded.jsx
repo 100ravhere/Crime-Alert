@@ -65,7 +65,7 @@ const openDrawer = () => {
   }
     return (
         <div>
-             <ToolbarComponent onUpdate={(city)=>{}} openDrawerHandler={openDrawer} />
+             <ToolbarComponent onUpdate={(city)=>{setLoc(city)}} openDrawerHandler={openDrawer} />
       <DrawerComponent open={isDrawerOpen} toggleDrawerHandler={toggleDrawer} />
             <h1>Added crimes</h1>
           <Alert style={{display:'none'}} id="gfg" severity="error" variant="standard">
@@ -101,12 +101,11 @@ const openDrawer = () => {
                  
                  </table>
                  :<Alert severity="warning" style={{width:'50%',display:'flex',justifyContent:'center',alignItems:'center',margin:'0 auto',marginTop:'2em'}}>0 Crime found</Alert>}
-       <button onClick={()=> history.goBack()}><footer>
+ <footer onClick={()=> history.goBack()}>
     <div className="texto">
         <span><h5>BACK</h5></span>
     </div>
 </footer>
-   </button>
         </div>
     )
 }

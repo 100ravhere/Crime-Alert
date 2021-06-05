@@ -5,11 +5,20 @@ import {useAuth} from "../Contexts/AuthContext";
 import ToolbarComponent from "./Toolbar/Toolbar";
 import DrawerComponent from "./Drawer/Drawer";
 import Alert from '@material-ui/lab/Alert';
+import BarChart from "./BarChart";
 export default function CityCrime() {
     const history = useHistory();
-    const {setDateDesc,setLoc,cityCrime} = useAuth();
+    const {setDateDesc,setLoc,Loc,cityCrime} = useAuth();
      const [crimeList,setCrimeList] = useState([]);
-
+     const[Murder,setM] = useState(0);
+     const[Burglary,setB] = useState(0);
+     const[Sexual,setS] = useState(0);
+     const[Cyber,setC] = useState(0);
+     const[Domestic,setD] = useState(0);
+     const[Fraud,setF] = useState(0);
+     const[Rape,setR] = useState(0);
+     const[Terrorism,setT] = useState(0);
+     
       const [ cc, setCC ]=useState(cityCrime)
 
      useEffect(() => {
@@ -25,7 +34,53 @@ export default function CityCrime() {
          snap=>{
             crimeArrList.push(snap.data());
          })
-         
+         let countM=0,countB=0,countS=0,countC=0,countD=0,countF=0,countR=0,countT=0;
+      crimeArrList.map((data)=>
+      {
+        console.log(data.type);
+        if(data.type==="Murder or manslaughter")
+        {
+          countM+=1;
+        }
+        else if(data.type==="Burglary")
+        {
+          countB+=1;
+        }
+        else if(data.type==="Sexual harassment")
+        {
+          countS+=1;
+        }
+
+        else if(data.type==="Cyber Crime")
+        {
+          countC+=1;
+        }
+        else if(data.type==="Domestic abuse")
+        {
+          countD+=1;
+        }
+        else if(data.type==="Fraud")
+        {
+          countF+=1;
+        }
+        else if(data.type==="Rape and sexual assault")
+        {
+          countR+=1;
+        }
+        else if(data.type==="Terrorism")
+        {
+          countT+=1;
+        }
+      })
+      setM(countM);
+      setB(countB);
+      setS(countS);
+      setC(countC);
+      setD(countD);
+      setF(countF);
+      setR(countR);
+      setT(countT);
+      
          setCrimeList(crimeArrList);
       
       })
@@ -52,15 +107,27 @@ const openDrawer = () => {
   }
     return (
         <div>
-             <ToolbarComponent onUpdate={(city)=>{
+             <ToolbarComponent onUpdate={async function(city){
                setCC(city);
+               await setLoc(city);
              }} openDrawerHandler={openDrawer} />
       <DrawerComponent open={isDrawerOpen} toggleDrawerHandler={toggleDrawer} />
-           
+      <BarChart murder={Murder}
+      
+            domestic={Domestic} burglary={Burglary}
+            sexual={Sexual}
+            cyber={Cyber}
+            fraud={Fraud}
+            rape={Rape}
+            terrorism={Terrorism}
+            />   
+            <hr/>
             {crimeList.length!==0?
-           
+         <div><h1>Crimes committed in {Loc}</h1>
             <table style={{marginTop:'20px'}}className="container2">
+                
               <thead>
+
               <tr>
                   <th><h1>Date-Time</h1></th>
                   <th><h1>Crime Details</h1></th>
@@ -89,14 +156,14 @@ const openDrawer = () => {
                  </tbody>
                  
                  </table>
-                 
+                 </div>
                  :<Alert severity="warning" style={{width:'50%',display:'flex',justifyContent:'center',alignItems:'center',margin:'0 auto',marginTop:'2em'}}>0 Crime found</Alert>}
-                <button onClick={()=> history.goBack()}><footer>
+                <footer onClick={()=> history.goBack()}>
     <div className="texto">
         <span><h5>BACK</h5></span>
     </div>
 </footer>
-   </button>   
+   
         </div>
     )
 }
