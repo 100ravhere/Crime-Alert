@@ -1,4 +1,4 @@
-import React,{useState,useRef,useEffect} from 'react'
+import React,{useState,useRef} from 'react'
 import ToolbarComponent from "./Toolbar/Toolbar";
 import DrawerComponent from "./Drawer/Drawer";
 import TextField from '@material-ui/core/TextField';
@@ -6,7 +6,6 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import {Card,Button} from "react-bootstrap"
 import {useHistory} from "react-router-dom";
 import {useAuth} from "../Contexts/AuthContext";
-import BarChart from "./BarChart";
 import app from "../firebase";
 
 const Render = (props)=>{

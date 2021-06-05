@@ -35,9 +35,9 @@ export default function CityCrime() {
             crimeArrList.push(snap.data());
          })
          let countM=0,countB=0,countS=0,countC=0,countD=0,countF=0,countR=0,countT=0;
-      crimeArrList.map((data)=>
+      crimeArrList.forEach((data)=>
       {
-        console.log(data.type);
+       
         if(data.type==="Murder or manslaughter")
         {
           countM+=1;

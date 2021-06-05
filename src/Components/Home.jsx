@@ -62,7 +62,7 @@ function rowClick(datee)
       crimeArrList.reverse();
       
       let countM=0,countB=0,countS=0,countC=0,countD=0,countF=0,countR=0,countT=0;
-      crimeArrList.map((data)=>
+      crimeArrList.forEach((data)=>
       {
         
         if(data.type==="Murder or manslaughter")

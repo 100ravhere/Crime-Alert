@@ -9,7 +9,7 @@ export default function AllCrime() {
     const history = useHistory();
     const {setDateDesc,setLoc} = useAuth();
      const [crimeList,setCrimeList] = useState([]);
-     const [err,setErr]=useState(false);
+     
      const[Murder,setM] = useState(0);
      const[Burglary,setB] = useState(0);
      const[Sexual,setS] = useState(0);
@@ -19,9 +19,67 @@ export default function AllCrime() {
      const[Rape,setR] = useState(0);
      const[Terrorism,setT] = useState(0);
      useEffect(() => {
-         getData()
-         
-     }, [err])
+      function getData()
+      {
+        app.firestore().collection("allCrimes").onSnapshot((snap)=>
+        {
+          let crimeArrList = [];
+          snap.forEach(objsnap=>{
+            crimeArrList.push(objsnap.data())
+          })
+          setCrimeList(crimeArrList)
+          let countM=0,countB=0,countS=0,countC=0,countD=0,countF=0,countR=0,countT=0;
+          crimeArrList.forEach((data)=>
+          {
+            
+            if(data.type==="Murder or manslaughter")
+            {
+              countM+=1;
+            }
+            else if(data.type==="Burglary")
+            {
+              countB+=1;
+            }
+            else if(data.type==="Sexual harassment")
+            {
+              countS+=1;
+            }
+            else if(data.type==="Cyber Crime")
+            {
+              countC+=1;
+            }
+            else if(data.type==="Domestic abuse")
+            {
+              countD+=1;
+            }
+            else if(data.type==="Fraud")
+            {
+              countF+=1;
+            }
+            else if(data.type==="Rape and sexual assault")
+            {
+              countR+=1;
+            }
+            else if(data.type==="Terrorism")
+            {
+              countT+=1;
+            }
+          })
+          setM(countM);
+          setB(countB);
+          setS(countS);
+          setC(countC);
+          setD(countD);
+          setF(countF);
+          setR(countR);
+          setT(countT);
+          setLoc("India")
+          
+        })
+      
+      }
+         getData();
+     }, [setLoc])
     
 const [isDrawerOpen, setDrawerOpen] = useState(false);
 const toggleDrawer = () => {
@@ -31,65 +89,7 @@ const openDrawer = () => {
   setDrawerOpen(true);
 };
 
-  function getData()
-  {
-    app.firestore().collection("allCrimes").onSnapshot((snap)=>
-    {
-      let crimeArrList = [];
-      snap.forEach(objsnap=>{
-        crimeArrList.push(objsnap.data())
-      })
-      setCrimeList(crimeArrList)
-      let countM=0,countB=0,countS=0,countC=0,countD=0,countF=0,countR=0,countT=0;
-      crimeArrList.map((data)=>
-      {
-        console.log(data.type);
-        if(data.type==="Murder or manslaughter")
-        {
-          countM+=1;
-        }
-        else if(data.type==="Burglary")
-        {
-          countB+=1;
-        }
-        else if(data.type==="Sexual harassment")
-        {
-          countS+=1;
-        }
-        else if(data.type==="Cyber Crime")
-        {
-          countC+=1;
-        }
-        else if(data.type==="Domestic abuse")
-        {
-          countD+=1;
-        }
-        else if(data.type==="Fraud")
-        {
-          countF+=1;
-        }
-        else if(data.type==="Rape and sexual assault")
-        {
-          countR+=1;
-        }
-        else if(data.type==="Terrorism")
-        {
-          countT+=1;
-        }
-      })
-      setM(countM);
-      setB(countB);
-      setS(countS);
-      setC(countC);
-      setD(countD);
-      setF(countF);
-      setR(countR);
-      setT(countT);
-      setLoc("India")
-      setErr(true)
-    })
   
-  }
   function rowClick(daterow,cityrow)
   {
     setDateDesc(daterow);
