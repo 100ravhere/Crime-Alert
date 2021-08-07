@@ -7,7 +7,7 @@ import {Card,Button} from "react-bootstrap"
 import {useHistory} from "react-router-dom";
 import {useAuth} from "../Contexts/AuthContext";
 import app from "../firebase";
-
+import Alert from '@material-ui/lab/Alert';
 const Render = (props)=>{
     return (
 <table className="container2">
@@ -47,6 +47,7 @@ export default function Type() {
     const history = useHistory();
     const {setLoc,setDateDesc} = useAuth();
     const [searchh,setSearch] = useState(false);
+    const [crimeT,setCrimeT] = useState("");
     const toggleDrawer = () => {
         setDrawerOpen(false);
       };
@@ -91,6 +92,7 @@ export default function Type() {
                 console.log(crimeArrList);
                 setCrimeList(crimeArrList)
                 // setTimeout(()=>{;},1000) 
+                setCrimeT(crimeType.current.value);
                 setSearch(true);
             })
                 
@@ -120,9 +122,14 @@ export default function Type() {
         
   <Button type="submit" onClick={()=>search()} >Search</Button>
  </Card>
-{searchh?
- <Render crimeList={crimeList} rowClick = {rowClick} />:null}
-                 
+{searchh && crimeList.length!==0 ?
+   <div>
+     <br/><h5>{crimeT}</h5>
+ <Render crimeList={crimeList} rowClick = {rowClick} />
+ </div>  :
+ <Alert severity="warning" style={{width:'50%',display:'flex',justifyContent:'center',alignItems:'center',margin:'0 auto',marginTop:'2em'}}>0 Crime found</Alert>
+ }
+               
         </div>
     )
 }

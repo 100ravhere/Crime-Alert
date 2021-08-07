@@ -5,9 +5,11 @@ import {useState,useRef} from "react";
 import {Form,Button} from "react-bootstrap";
 import TextField from '@material-ui/core/TextField';
 import crime from "../crimeAdd.png"
+import { MDBCard, MDBCardBody,MDBCardText, MDBCardHeader} from 'mdb-react-ui-kit';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import dateformat from "dateformat";
 import app from "../firebase";
+import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
 import {useHistory} from "react-router-dom"
 import {storage} from "../firebase"
 import {useAuth} from "../Contexts/AuthContext";
@@ -168,6 +170,15 @@ else
         <div id="addCrime" >
            
           <h4 style={{display:'inline'}}>Add Crime</h4><img alt="tagofcrime" src={crime} style={{width:'10em',display:'inline'}}/>
+          <MDBCard background='dark' alignment='center' style={{ maxWidth: '22rem' ,top:'0',display:'flex',float:'right'}}>
+          <MDBCardHeader className='text-white'><ErrorOutlineIcon/></MDBCardHeader>
+      <MDBCardBody className='text-warning'>
+        <MDBCardText style={{fontSize:'0.8em'}}>
+          Don't add any crime which is not committed because it will be sent for verification to our team. Our team will look after your uploaded 
+          crime within 2-3 days. If the crime gets verified, It will be sent to all the users of that city. You will be informed with a notification about your crime status.
+        </MDBCardText>
+      </MDBCardBody>
+    </MDBCard>
           {errortwo&&<Alert style={{width:'35%', display:'flex',marginBottom:'8px',justifyContent:'center',alignSelf:'center'}}autoHideDuration={100} severity="error">{errortwo}</Alert>}
           
         {error&&

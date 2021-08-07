@@ -1,0 +1,20 @@
+{ "name":"Crime Alert",
+    "short_name":"Crime Alert",
+    "background_color":"#6dcdb1",
+    "start_url":".",
+    "theme_color":"#009578",
+    "display"  :"standalone",
+    "icons":[
+        {
+            "src":"murder2.png",
+            "sizes":"192x192",
+            "type":"image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src":"murder1.png",
+            "sizes":"512x512",
+            "type":"image/png"
+        }
+    ]
+}
